@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Jarvis — Weekly Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --surface2: #111820;
+    --border: #1e2d3d;
+    --border2: #243040;
+    --accent: #00d4ff;
+    --success: #00ff88;
+    --warning: #ffd166;
+    --error: #ff3355;
+    --text: #c9d1d9;
+    --muted: #4a5568;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(0,212,255,0.07) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 100%, rgba(255,107,53,0.04) 0%, transparent 45%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .header {
+    padding: 24px 20px 16px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(8,12,16,0.95); backdrop-filter: blur(10px);
+  }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .logo-row { display: flex; align-items: baseline; gap: 10px; }
+  h1 {
+    font-size: 28px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .version { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 2px; }
+  .header-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .back-link {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-decoration: none; border: 1px solid var(--border);
+    padding: 6px 10px; border-radius: 3px; transition: all 0.2s;
+  }
+  .back-link:active { border-color: var(--accent); color: var(--accent); }
+
+  .main { padding: 20px; position: relative; z-index: 1; max-width: 540px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px; opacity: 0.7;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* WEEK SELECTOR */
+  .week-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+    padding: 12px 16px; margin-bottom: 20px;
+  }
+  .week-btn {
+    background: transparent; border: 1px solid var(--border2); color: var(--muted);
+    font-family: 'Share Tech Mono', monospace; font-size: 16px; padding: 4px 12px;
+    border-radius: 3px; cursor: pointer; transition: all 0.15s;
+  }
+  .week-btn:active { border-color: var(--accent); color: var(--accent); }
+  .week-label { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text); letter-spacing: 1px; text-align: center; }
+  .week-sub { font-size: 10px; color: var(--muted); margin-top: 2px; text-align: center; }
+
+  /* GOAL CARD */
+  .goal-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+    padding: 20px; margin-bottom: 16px; position: relative; overflow: hidden;
+  }
+  .goal-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), rgba(0,212,255,0.2));
+  }
+  .goal-numbers { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+  .goal-count { font-size: 52px; font-weight: 700; line-height: 1; color: var(--text); }
+  .goal-sep { font-family: 'Share Tech Mono', monospace; font-size: 20px; color: var(--muted); }
+  .goal-target { font-size: 28px; font-weight: 600; color: var(--muted); }
+  .goal-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 12px; }
+
+  .goal-bar { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; margin-bottom: 10px; }
+  .goal-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+
+  .goal-status { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 14px;
+  }
+  .stat-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* STATUS BREAKDOWN */
+  .status-list { margin-bottom: 16px; }
+  .status-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .status-row:last-child { border-bottom: none; }
+  .status-dot-sm { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .status-name { flex: 1; font-size: 15px; font-weight: 500; }
+  .status-count { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--text); }
+  .status-bar-wrap { width: 80px; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+  .status-bar-inner { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+
+  /* FOLLOW-UP */
+  .followup-list { margin-bottom: 20px; }
+  .followup-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+    padding: 12px 14px; margin-bottom: 8px;
+  }
+  .followup-company { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .followup-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .followup-days { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--warning); margin-top: 4px; }
+
+  /* APPLICATIONS LIST */
+  .app-list { margin-bottom: 20px; }
+  .app-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+    padding: 12px 14px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .app-score {
+    font-family: 'Share Tech Mono', monospace; font-size: 13px; font-weight: 700;
+    flex-shrink: 0; width: 32px; text-align: center; padding-top: 2px;
+  }
+  .app-info { flex: 1; min-width: 0; }
+  .app-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 3px; }
+  .app-status {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 3px 8px;
+    border-radius: 2px; flex-shrink: 0; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* LOADING */
+  .loading-screen { text-align: center; padding: 60px 20px; }
+  .spinner-lg {
+    width: 36px; height: 36px; border: 3px solid rgba(0,212,255,0.15);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+
+  .empty-state { text-align: center; padding: 32px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; line-height: 1.8; }
+
+  .gap { height: 12px; }
+  .gap-lg { height: 24px; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeUp 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo-row">
+      <h1>Jarvis</h1>
+      <span class="version">report</span>
+    </div>
+    <a href="jarvis.html" class="back-link">← log</a>
+  </div>
+  <div class="header-sub" id="headerSub">// weekly report</div>
+</div>
+
+<div class="main">
+
+  <!-- LOADING -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="spinner-lg"></div>
+    <div class="loading-text">// pulling notion data...</div>
+  </div>
+
+  <!-- REPORT -->
+  <div id="reportScreen" style="display:none;">
+
+    <!-- WEEK NAV -->
+    <div class="week-nav">
+      <button class="week-btn" onclick="changeWeek(-1)">‹</button>
+      <div>
+        <div class="week-label" id="weekLabel">—</div>
+        <div class="week-sub" id="weekSub">—</div>
+      </div>
+      <button class="week-btn" onclick="changeWeek(1)" id="nextWeekBtn">›</button>
+    </div>
+
+    <!-- GOAL -->
+    <div class="section-label">Weekly Goal</div>
+    <div class="goal-card" id="goalCard">
+      <div class="goal-numbers">
+        <div class="goal-count" id="goalCount">0</div>
+        <div class="goal-sep">/</div>
+        <div class="goal-target">14</div>
+      </div>
+      <div class="goal-label">// applications this week</div>
+      <div class="goal-bar"><div class="goal-bar-fill" id="goalBarFill"></div></div>
+      <div class="goal-status" id="goalStatus"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section-label">At a Glance</div>
+    <div class="stats-grid fade-in">
+      <div class="stat-card">
+        <div class="stat-value" id="statAvgScore" style="color: var(--accent);">—</div>
+        <div class="stat-label">Avg Match Score</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statActive" style="color: var(--warning);">—</div>
+        <div class="stat-label">Active (No Response)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statInterviews" style="color: var(--success);">—</div>
+        <div class="stat-label">Interviews</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statFollowups" style="color: var(--error);">—</div>
+        <div class="stat-label">Need Follow-up</div>
+      </div>
+    </div>
+
+    <div class="gap-lg"></div>
+
+    <!-- STATUS BREAKDOWN -->
+    <div class="section-label">Status Breakdown</div>
+    <div class="status-list fade-in" id="statusList"></div>
+
+    <!-- FOLLOW-UPS -->
+    <div id="followupSection" style="display:none;">
+      <div class="section-label">Follow-up Needed</div>
+      <div class="followup-list" id="followupList"></div>
+    </div>
+
+    <!-- ALL APPLICATIONS THIS WEEK -->
+    <div id="appsSection">
+      <div class="section-label">Applications This Week</div>
+      <div class="app-list" id="appList"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const PROXY = 'https://black-union-2df2.maunint.workers.dev/notion';
+  const DB_ID = '3323844b182c80eeac17ce16242ebd44';
+  const WEEKLY_TARGET = 14;
+
+  let currentWeekOffset = 0;
+  let allApplications = [];
+
+  const STATUS_COLORS = {
+    'Applied':      { dot: '#00d4ff', bar: '#00d4ff', badge: 'rgba(0,212,255,0.15)', text: '#00d4ff' },
+    'Phone Screen': { dot: '#ffd166', bar: '#ffd166', badge: 'rgba(255,209,102,0.15)', text: '#ffd166' },
+    'Interview':    { dot: '#00ff88', bar: '#00ff88', badge: 'rgba(0,255,136,0.15)', text: '#00ff88' },
+    'Offer':        { dot: '#00ff88', bar: '#00ff88', badge: 'rgba(0,255,136,0.2)', text: '#00ff88' },
+    'Rejected':     { dot: '#ff3355', bar: '#ff3355', badge: 'rgba(255,51,85,0.12)', text: '#ff3355' },
+    'Ghosted':      { dot: '#4a5568', bar: '#4a5568', badge: 'rgba(74,85,104,0.2)', text: '#4a5568' },
+    'Withdrawn':    { dot: '#4a5568', bar: '#4a5568', badge: 'rgba(74,85,104,0.2)', text: '#4a5568' },
+  };
+
+  // ── DATE HELPERS ──────────────────────────────────────
+  function getWeekRange(offset) {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+    monday.setHours(0, 0, 0, 0);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999);
+    return { start: monday, end: sunday };
+  }
+
+  function formatDate(d) {
+    return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+  }
+
+  function daysBetween(d1, d2) {
+    return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
+  }
+
+  // ── FETCH ALL DATA ────────────────────────────────────
+  async function fetchAllApplications() {
+    let results = [];
+    let cursor = undefined;
+
+    do {
+      const body = {
+        page_size: 100,
+        sorts: [{ property: 'Date Applied', direction: 'descending' }]
+      };
+      if (cursor) body.start_cursor = cursor;
+
+      const res = await fetch(`${PROXY}/databases/${DB_ID}/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      results = results.concat(data.results || []);
+      cursor = data.has_more ? data.next_cursor : undefined;
+    } while (cursor);
+
+    return results;
+  }
+
+  function parseApp(page) {
+    const p = page.properties;
+    const name = p.Name?.title?.[0]?.plain_text || 'Untitled';
+    const status = p.Status?.select?.name || 'Applied';
+    const dateStr = p['Date Applied']?.date?.start || null;
+    const score = p['Match Score']?.number || null;
+    const salary = p['Salary range']?.rich_text?.[0]?.plain_text || '';
+    const jobUrl = p['Job posting URL']?.url || '';
+    return { id: page.id, name, status, dateStr, score, salary, jobUrl, date: dateStr ? new Date(dateStr) : null };
+  }
+
+  // ── RENDER ────────────────────────────────────────────
+  function renderReport() {
+    const { start, end } = getWeekRange(currentWeekOffset);
+
+    // Week label
+    const isCurrentWeek = currentWeekOffset === 0;
+    document.getElementById('weekLabel').textContent = isCurrentWeek
+      ? 'This Week'
+      : currentWeekOffset === -1 ? 'Last Week' : `Week of ${formatDate(start)}`;
+    document.getElementById('weekSub').textContent = `${formatDate(start)} – ${formatDate(end)}`;
+    document.getElementById('nextWeekBtn').style.opacity = currentWeekOffset >= 0 ? '0.3' : '1';
+    document.getElementById('nextWeekBtn').disabled = currentWeekOffset >= 0;
+
+    // Filter apps for this week
+    const weekApps = allApplications.filter(a => a.date && a.date >= start && a.date <= end);
+    const count = weekApps.length;
+    const pct = Math.min((count / WEEKLY_TARGET) * 100, 100);
+
+    // Goal
+    document.getElementById('goalCount').textContent = count;
+    const fill = document.getElementById('goalBarFill');
+    fill.style.width = pct + '%';
+    fill.style.background = pct >= 100 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--error)';
+
+    const remaining = WEEKLY_TARGET - count;
+    let statusText = '';
+    if (count >= WEEKLY_TARGET) {
+      statusText = `// target met ✓ — ${count - WEEKLY_TARGET > 0 ? `${count - WEEKLY_TARGET} above goal` : 'exactly on target'}`;
+      statusText = statusText.replace('var(--success)', '#00ff88');
+      document.getElementById('goalStatus').style.color = 'var(--success)';
+    } else if (isCurrentWeek) {
+      const daysLeft = daysBetween(new Date(), end);
+      statusText = `// ${remaining} more to reach target — ${daysLeft + 1} day${daysLeft !== 0 ? 's' : ''} left`;
+      document.getElementById('goalStatus').style.color = pct >= 60 ? 'var(--warning)' : 'var(--error)';
+    } else {
+      statusText = `// missed by ${remaining} application${remaining !== 1 ? 's' : ''}`;
+      document.getElementById('goalStatus').style.color = 'var(--error)';
+    }
+    document.getElementById('goalStatus').textContent = statusText;
+
+    // Stats
+    const scores = weekApps.filter(a => a.score !== null).map(a => a.score);
+    const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null;
+    document.getElementById('statAvgScore').textContent = avgScore !== null ? avgScore : '—';
+
+    const active = weekApps.filter(a => a.status === 'Applied').length;
+    document.getElementById('statActive').textContent = active;
+
+    const interviews = allApplications.filter(a => a.status === 'Interview' || a.status === 'Phone Screen').length;
+    document.getElementById('statInterviews').textContent = interviews;
+
+    // Follow-ups: applied 5+ days ago, still "Applied"
+    const today = new Date();
+    const needFollowup = allApplications.filter(a =>
+      a.status === 'Applied' && a.date && daysBetween(a.date, today) >= 5
+    );
+    document.getElementById('statFollowups').textContent = needFollowup.length;
+
+    // Status breakdown for week
+    const statusCounts = {};
+    weekApps.forEach(a => { statusCounts[a.status] = (statusCounts[a.status] || 0) + 1; });
+    const statusOrder = ['Applied', 'Phone Screen', 'Interview', 'Offer', 'Rejected', 'Ghosted', 'Withdrawn'];
+    const statusHTML = statusOrder
+      .filter(s => statusCounts[s])
+      .map(s => {
+        const c = statusCounts[s];
+        const pct = Math.round((c / count) * 100);
+        const col = STATUS_COLORS[s] || STATUS_COLORS['Applied'];
+        return `<div class="status-row">
+          <div class="status-dot-sm" style="background:${col.dot}"></div>
+          <div class="status-name">${s}</div>
+          <div class="status-bar-wrap"><div class="status-bar-inner" style="width:${pct}%;background:${col.bar}"></div></div>
+          <div class="status-count">${c}</div>
+        </div>`;
+      }).join('');
+    document.getElementById('statusList').innerHTML = statusHTML || '<div class="empty-state">// no applications this week</div>';
+
+    // Follow-ups
+    if (needFollowup.length > 0) {
+      document.getElementById('followupSection').style.display = 'block';
+      document.getElementById('followupList').innerHTML = needFollowup.slice(0, 5).map(a => {
+        const days = daysBetween(a.date, today);
+        return `<div class="followup-item">
+          <div class="followup-company">${a.name}</div>
+          <div class="followup-meta">${a.dateStr} · ${a.status}</div>
+          <div class="followup-days">// ${days} days since application — follow up?</div>
+        </div>`;
+      }).join('');
+    } else {
+      document.getElementById('followupSection').style.display = 'none';
+    }
+
+    // Apps list
+    const appHTML = weekApps.length > 0 ? weekApps.map(a => {
+      const col = STATUS_COLORS[a.status] || STATUS_COLORS['Applied'];
+      const scoreColor = a.score >= 70 ? '#00ff88' : a.score >= 45 ? '#ffd166' : a.score !== null ? '#ff3355' : 'var(--muted)';
+      return `<div class="app-item">
+        <div class="app-score" style="color:${scoreColor}">${a.score !== null ? a.score : '—'}</div>
+        <div class="app-info">
+          <div class="app-name">${a.name}</div>
+          <div class="app-meta">${a.dateStr}${a.salary ? ' · ' + a.salary : ''}</div>
+        </div>
+        <div class="app-status" style="background:${col.badge};color:${col.text}">${a.status}</div>
+      </div>`;
+    }).join('') : '<div class="empty-state">// no applications this week</div>';
+    document.getElementById('appList').innerHTML = appHTML;
+
+    document.getElementById('headerSub').textContent = `// week of ${formatDate(start)}`;
+  }
+
+  function changeWeek(dir) {
+    if (currentWeekOffset + dir > 0) return;
+    currentWeekOffset += dir;
+    renderReport();
+  }
+
+  // ── INIT ─────────────────────────────────────────────
+  window.addEventListener('load', async () => {
+    try {
+      const pages = await fetchAllApplications();
+      allApplications = pages.map(parseApp);
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('reportScreen').style.display = 'block';
+      renderReport();
+    } catch(e) {
+      document.getElementById('loadingScreen').innerHTML = `
+        <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--error);letter-spacing:2px;text-align:center;padding:60px 20px;">
+          // error loading data<br><br>${e.message}
+        </div>`;
+    }
+  });
+</script>
+</body>
+</html>
