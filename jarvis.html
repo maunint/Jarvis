@@ -210,13 +210,14 @@
         <div class="score-ring">
           <svg width="56" height="56" viewBox="0 0 56 56">
             <circle class="track" cx="28" cy="28" r="22" />
-            <circle class="fill" cx="28" cy="28" r="22" />
+            <circle class="fill" id="scoreArc" cx="28" cy="28" r="22" />
           </svg>
-          <div class="score-number">—</div>
+          <div class="score-number" id="scoreNumber">—</div>
         </div>
         <div class="score-info">
           <div class="score-label">// match score</div>
-          <div class="score-placeholder">Skills profile not yet defined.<br>Score pending setup.</div>
+          <div id="scoreDetail" style="font-size:13px; color: var(--muted); line-height:1.5;">Analyzing...</div>
+          <div id="resumeRec" style="font-family:'Share Tech Mono',monospace; font-size:11px; color: var(--accent); margin-top:6px; opacity:0.8;"></div>
         </div>
       </div>
     </div>
@@ -307,16 +308,46 @@
     showToast('Analyzing...', 'info');
     setProgress(30);
 
+    const SKILLS_PROFILE = `
+Maunin Trivedi — Paid Search / Paid Media Specialist
+8+ years experience. Currently Paid Ads Specialist at BoomerangFX (July 2025–present).
+
+Core skills: Google Ads, Meta Ads, LinkedIn Ads, TikTok Ads, Pinterest Ads, Microsoft Ads (Bing), SA360
+Multi-account management: 150+ accounts, up to $800K/month spend
+Strategy: Full-funnel B2B and B2C, CRO, conversion tracking, account audits, competitive research, A/B testing
+Tools: Google Analytics, GTM, Looker Studio, SA360, Salesforce, Excel
+Certifications: Google Ads Search, Google Analytics IQ, SA360
+Notable results: Peak ROAS 36x, 30-40% lead volume improvement, sub-$600 CPL in competitive legal market
+Background: Founded and ran agency (Numina Digital) for 5 years, 50+ clients
+Consultative sales experience: carried and exceeded budget growth quotas at Teleperformance/Google
+
+Resume versions available:
+- Base: general paid media specialist
+- Google GCS: consultative sales angle (best for account manager / sales roles)
+- Stripe: paid search specialist (best for in-house paid search roles)
+- Tailored: SA360 emphasis (best for enterprise/agency roles requiring SA360)
+- Directive: agency/enterprise focus
+`;
+
     try {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: `You are a job posting analyzer. Extract key information and return ONLY valid JSON with no markdown or backticks:
-{"company":"string","role":"string","salary":"string or empty string","notes":"2-3 sentence summary of role and key requirements"}`,
-          messages: [{ role: 'user', content: `Extract job details from this URL: ${url}` }],
+          max_tokens: 1500,
+          system: `You are a job application assistant. Analyze job postings and match them against a candidate's skills profile. Return ONLY valid JSON with no markdown or backticks:
+{
+  "company": "string",
+  "role": "string",
+  "salary": "string or empty",
+  "notes": "2-3 sentence summary of role and key requirements",
+  "score": number between 0-100,
+  "score_reason": "one sentence explaining the score",
+  "resume_version": "one of: Base, Google GCS, Stripe, Tailored, Directive",
+  "resume_reason": "one sentence explaining why this resume version fits best"
+}`,
+          messages: [{ role: 'user', content: `Candidate profile:\n${SKILLS_PROFILE}\n\nAnalyze this job posting and score the match: ${url}` }],
           tools: [{ type: 'web_search_20250305', name: 'web_search' }]
         })
       });
@@ -331,6 +362,14 @@
       document.getElementById('salary').value = extracted.salary || '';
       document.getElementById('notes').value = extracted.notes || '';
 
+      // Update score display
+      const score = extracted.score || 0;
+      updateScoreRing(score);
+      document.getElementById('scoreDetail').textContent = extracted.score_reason || '';
+      document.getElementById('resumeRec').textContent = extracted.resume_version
+        ? `→ Use ${extracted.resume_version} resume`
+        : '';
+
       goToStep('step2');
       setProgress(50);
       showToast('Posting analyzed ✓', 'success');
@@ -339,6 +378,23 @@
       setProgress(50);
       showToast('Enter details manually', 'info');
     }
+  }
+
+  function updateScoreRing(score) {
+    const arc = document.getElementById('scoreArc');
+    const num = document.getElementById('scoreNumber');
+    if (!arc || !num) return;
+
+    const circumference = 138.2;
+    const offset = circumference - (score / 100) * circumference;
+    arc.style.strokeDashoffset = offset;
+
+    let color = '#ff3355'; // red
+    if (score >= 70) color = '#00ff88';
+    else if (score >= 45) color = '#ffd166';
+    arc.style.stroke = color;
+    num.style.color = color;
+    num.textContent = score;
   }
 
   // ── LOG ───────────────────────────────────────────────
@@ -364,6 +420,8 @@
       'Date Applied': { date: { start: today } }
     };
 
+    const scoreVal = parseInt(document.getElementById('scoreNumber').textContent);
+    if (!isNaN(scoreVal)) properties['Match Score'] = { number: scoreVal };
     if (jobUrl) properties['Job posting URL'] = { url: jobUrl };
     if (salary) properties['Salary range'] = { rich_text: [{ text: { content: salary } }] };
     if (notes) properties['Notes'] = { rich_text: [{ text: { content: notes } }] };
