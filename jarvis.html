@@ -25,57 +25,41 @@
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background: var(--bg); color: var(--text);
+    font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden;
   }
 
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
+    content: ''; position: fixed; inset: 0;
     background:
       radial-gradient(ellipse at 15% 0%, rgba(0,212,255,0.07) 0%, transparent 45%),
       radial-gradient(ellipse at 85% 100%, rgba(255,107,53,0.04) 0%, transparent 45%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
 
   .header {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid var(--border);
+    padding: 24px 20px 16px; border-bottom: 1px solid var(--border);
     position: sticky; top: 0; z-index: 10;
-    background: rgba(8,12,16,0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(8,12,16,0.95); backdrop-filter: blur(10px);
   }
-
   .header-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
-
   h1 {
     font-size: 28px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase;
     background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-
   .version { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 2px; }
   .header-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; }
 
   .main { padding: 20px; position: relative; z-index: 1; max-width: 540px; margin: 0 auto; }
 
   .progress-bar { height: 2px; background: var(--border); border-radius: 1px; margin-bottom: 24px; overflow: hidden; }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), rgba(0,212,255,0.4));
-    border-radius: 1px; transition: width 0.4s ease; width: 0%;
-  }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), rgba(0,212,255,0.4)); border-radius: 1px; transition: width 0.4s ease; width: 0%; }
 
   .step { display: none; animation: fadeUp 0.4s ease both; }
   .step.active { display: block; }
 
   .section { margin-bottom: 18px; }
-
   .section-label {
     font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
     color: var(--accent); text-transform: uppercase; margin-bottom: 8px; opacity: 0.7;
@@ -101,10 +85,7 @@
   .score-ring svg { transform: rotate(-90deg); }
   .score-ring .track { fill: none; stroke: var(--border2); stroke-width: 3; }
   .score-ring .fill { fill: none; stroke: var(--muted); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 138.2; stroke-dashoffset: 138.2; }
-  .score-number {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--muted);
-  }
+  .score-number { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--muted); }
   .score-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 4px; }
   .score-placeholder { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--warning); opacity: 0.7; line-height: 1.5; }
 
@@ -131,18 +112,26 @@
   }
   .btn-secondary:active { border-color: var(--muted); color: var(--text); }
 
-  .notion-btn {
-    width: 100%; padding: 16px; background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.4);
-    color: var(--success); font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700;
+  .btn-notion {
+    width: 100%; padding: 16px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.4);
+    color: var(--accent); font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700;
     letter-spacing: 4px; text-transform: uppercase; border-radius: 3px; cursor: pointer;
     transition: all 0.2s; text-decoration: none; display: block; text-align: center;
   }
-  .notion-btn:active { background: rgba(0,255,136,0.12); box-shadow: 0 0 24px rgba(0,255,136,0.2); }
+  .btn-notion:active { background: rgba(0,212,255,0.12); }
+
+  .btn-confirm {
+    width: 100%; padding: 16px; background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.4);
+    color: var(--success); font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase; border-radius: 3px; cursor: pointer;
+    transition: all 0.2s; margin-top: 10px;
+  }
+  .btn-confirm:active { background: rgba(0,255,136,0.12); box-shadow: 0 0 24px rgba(0,255,136,0.2); }
 
   .info-box {
     background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); border-radius: 3px;
     padding: 12px 14px; font-family: 'Share Tech Mono', monospace; font-size: 11px;
-    color: var(--muted); line-height: 1.6; letter-spacing: 1px; margin-bottom: 16px;
+    color: var(--muted); line-height: 1.7; letter-spacing: 1px; margin-bottom: 16px;
   }
 
   .field-row {
@@ -154,6 +143,9 @@
     letter-spacing: 2px; text-transform: uppercase; flex-shrink: 0; width: 70px; padding-top: 2px;
   }
   .field-val { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; word-break: break-word; }
+
+  .step4-notion-opened { display: none; margin-top: 16px; }
+  .step4-notion-opened.visible { display: block; animation: fadeUp 0.3s ease both; }
 
   .success-screen { text-align: center; padding: 32px 0; }
   .success-icon { font-size: 44px; margin-bottom: 12px; display: block; }
@@ -182,7 +174,7 @@
 <div class="header">
   <div class="header-top">
     <h1>Jarvis</h1>
-    <span class="version">v0.2</span>
+    <span class="version">v0.3</span>
   </div>
   <div class="header-sub">// job application system</div>
 </div>
@@ -259,24 +251,34 @@
       <input type="url" id="coverUrl" placeholder="Google Doc URL (optional)" />
     </div>
     <div class="gap"></div>
-    <button class="btn-primary" onclick="prepareNotion()">Prepare Notion Entry</button>
+    <button class="btn-primary" onclick="prepareNotion()">Prepare Entry</button>
     <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
   </div>
 
-  <!-- STEP 4: OPEN IN NOTION -->
+  <!-- STEP 4: OPEN NOTION + CONFIRM -->
   <div class="step" id="step4">
-    <div class="info-box">
-      // Entry ready. Tap below to open Notion — your database will open and you can create a new entry. Fields are shown below for reference so you can fill them in quickly.
+    <div class="info-box" id="step4Info">
+      // Your entry is ready. Tap <strong style="color:var(--accent)">Open Notion</strong> — it will open in a new tab. Use the fields below to fill in the new entry, then come back here and tap <strong style="color:var(--success)">Done — Entry Saved</strong>.
     </div>
+
     <div id="summaryFields"></div>
+
     <div class="gap"></div>
-    <a id="notionLink" href="https://www.notion.so/3323844b182c80eeac17ce16242ebd44" target="_blank" class="notion-btn" onclick="markOpened()">
-      Open Notion Database →
+
+    <a id="notionLink" href="https://www.notion.so/3323844b182c80eeac17ce16242ebd44" target="_blank" class="btn-notion" onclick="notionOpened()">
+      Open Notion →
     </a>
+
+    <div class="step4-notion-opened" id="confirmSection">
+      <button class="btn-confirm" onclick="goToStep(5); setProgress(100);">
+        Done — Entry Saved ✓
+      </button>
+    </div>
+
     <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
   </div>
 
-  <!-- STEP 5: DONE -->
+  <!-- STEP 5: SUCCESS -->
   <div class="step" id="step5">
     <div class="success-screen">
       <span class="success-icon">✓</span>
@@ -348,9 +350,9 @@
       { key: 'Status', val: selectedStatus },
       { key: 'Date', val: today },
       salary && { key: 'Salary', val: salary },
-      notes && { key: 'Notes', val: notes.length > 100 ? notes.substring(0, 100) + '...' : notes },
-      resumeUrl && { key: 'Resume', val: '✓ linked' },
-      coverUrl && { key: 'Cover', val: '✓ linked' },
+      notes && { key: 'Notes', val: notes.length > 120 ? notes.substring(0, 120) + '...' : notes },
+      resumeUrl && { key: 'Resume', val: resumeUrl },
+      coverUrl && { key: 'Cover', val: coverUrl },
     ].filter(Boolean);
 
     document.getElementById('summaryFields').innerHTML = fields.map(f => `
@@ -360,12 +362,19 @@
       </div>`).join('');
 
     document.getElementById('successSub').textContent = `// ${company} · ${today}`;
+
+    // Reset confirm section
+    document.getElementById('confirmSection').classList.remove('visible');
     goToStep(4);
-    setProgress(90);
+    setProgress(75);
   }
 
-  function markOpened() {
-    setTimeout(() => { goToStep(5); setProgress(100); }, 1000);
+  function notionOpened() {
+    // Show confirm button after a short delay
+    setTimeout(() => {
+      document.getElementById('confirmSection').classList.add('visible');
+      document.getElementById('step4Info').innerHTML = '// Notion is open in another tab. Fill in the entry using the fields above, then tap the button below when done.';
+    }, 800);
   }
 
   function goToStep(n) {
@@ -378,7 +387,7 @@
     const company = document.getElementById('company').value.trim();
     const role = document.getElementById('role').value.trim();
     if (!company || !role) { showToast('Company and role required', 'error'); return; }
-    goToStep(3); setProgress(66);
+    goToStep(3); setProgress(50);
   }
 
   function setProgress(pct) { document.getElementById('progressFill').style.width = pct + '%'; }
