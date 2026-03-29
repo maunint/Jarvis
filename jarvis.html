@@ -181,18 +181,8 @@
 <div class="main">
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-  <!-- SETUP -->
-  <div class="step active" id="stepSetup">
-    <div class="setup-label">// initialize</div>
-    <div class="section">
-      <div class="section-label">Notion Token</div>
-      <input type="password" id="tokenInput" class="input-mono" placeholder="ntn_••••••••••••••••" autocomplete="off" />
-    </div>
-    <button class="btn-primary" onclick="initialize()">Initialize Jarvis</button>
-  </div>
-
   <!-- STEP 1: URL -->
-  <div class="step" id="step1">
+  <div class="step active" id="step1">
     <div class="section">
       <div class="section-label">Job Posting URL</div>
       <textarea id="jobUrl" class="input-mono" placeholder="Paste job posting URL here..." rows="3"></textarea>
@@ -281,41 +271,29 @@
 <script>
   const PROXY = 'https://black-union-2df2.maunint.workers.dev/notion';
   const DB_ID = '3323844b182c80eeac17ce16242ebd44';
-  let token = '';
   let selectedStatus = 'Applied';
 
-  // ── INIT ─────────────────────────────────────────────
-  async function initialize() {
-    token = document.getElementById('tokenInput').value.trim();
-    if (!token) { showToast('Token required', 'error'); return; }
-
-    showToast('Connecting...', 'info');
-
+  // Auto-connect on load
+  window.addEventListener('load', async () => {
     try {
       const res = await notionRequest('GET', `databases/${DB_ID}`);
       if (res.ok) {
-        goToStep('step1');
-        setProgress(10);
         document.getElementById('statusDot').classList.add('connected');
         document.getElementById('headerSub').textContent = '// ready — paste a job url';
-        showToast('Connected ✓', 'success');
       } else {
-        const err = await res.json();
-        showToast(err.message || 'Check your token', 'error');
+        document.getElementById('statusDot').classList.add('error');
+        document.getElementById('headerSub').textContent = '// connection error';
       }
     } catch(e) {
-      showToast('Connection failed', 'error');
+      document.getElementById('statusDot').classList.add('error');
     }
-  }
+  });
 
   // ── NOTION REQUEST ────────────────────────────────────
   async function notionRequest(method, path, body) {
     const opts = {
       method,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     };
     if (body) opts.body = JSON.stringify(body);
     return fetch(`${PROXY}/${path}`, opts);
