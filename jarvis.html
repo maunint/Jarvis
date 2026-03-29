@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -387,11 +386,11 @@
       'Date Applied': { date: { start: today } }
     };
 
-    if (jobUrl) properties['Job Posting URL'] = { url: jobUrl };
-    if (salary) properties['Salary Range'] = { rich_text: [{ text: { content: salary } }] };
+    if (jobUrl) properties['Job posting URL'] = { url: jobUrl };
+    if (salary) properties['Salary range'] = { rich_text: [{ text: { content: salary } }] };
     if (notes) properties['Notes'] = { rich_text: [{ text: { content: notes } }] };
     if (resumeUrl) properties['Resume Version'] = { url: resumeUrl };
-    if (coverUrl) properties['Cover Letter Version'] = { url: coverUrl };
+    if (coverUrl) properties['Cover letter version'] = { url: coverUrl };
 
     try {
       const res = await notionRequest('POST', 'pages', {
