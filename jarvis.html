@@ -161,7 +161,7 @@
     <div class="logo-row"><h1>Jarvis</h1><span class="version">v1.0</span></div>
     <div class="status-dot" id="statusDot"></div>
   </div>
-  <div class="header-sub" id="headerSub">// build 2026-03-29 22:40 ET</div>
+  <div class="header-sub" id="headerSub">// build 2026-03-30 00:14 ET</div>
 </div>
 
 <div class="main">
@@ -290,6 +290,24 @@
     btn.innerHTML = '<span class="spinner"></span>Analyzing...';
     setProgress(15);
 
+    // LinkedIn: extract job ID and use guest API + Jina Reader
+    let jobContext = `Analyze this job posting URL: ${url}`;
+    const linkedInMatch = url.match(/linkedin\.com\/jobs\/view\/(\d+)/);
+    if (linkedInMatch) {
+      const jobId = linkedInMatch[1];
+      const guestUrl = `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${jobId}`;
+      try {
+        const liRes = await fetch(`https://r.jina.ai/${guestUrl}`);
+        if (liRes.ok) {
+          const liText = await liRes.text();
+          jobContext = `Job posting content (LinkedIn):\n${liText.substring(0, 8000)}`;
+          showToast('LinkedIn posting fetched ✓', 'info');
+        }
+      } catch(e) {
+        // Fall back to URL if Jina fails
+      }
+    }
+
     let masterResume = '';
     try {
       const gistRes = await fetch(GIST_URL);
@@ -317,7 +335,7 @@
   "score": number 0-100,
   "score_reason": "one concise sentence on why this score — focus on specific skill matches or gaps, no mention of resume variants"
 }`,
-          messages: [{ role: 'user', content: `Master resume:\n${masterResume}\n\nAnalyze this job posting: ${url}` }],
+          messages: [{ role: 'user', content: `Master resume:\n${masterResume}\n\n${jobContext}` }],
           tools: [{ type: 'web_search_20250305', name: 'web_search' }]
         })
       });
