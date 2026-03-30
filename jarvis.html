@@ -8,31 +8,20 @@
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
   :root {
-    --bg: #080c10;
-    --surface: #0d1117;
-    --surface2: #111820;
-    --border: #1e2d3d;
-    --border2: #243040;
-    --accent: #00d4ff;
-    --success: #00ff88;
-    --warning: #ffd166;
-    --error: #ff3355;
-    --text: #c9d1d9;
-    --muted: #4a5568;
+    --bg: #080c10; --surface: #0d1117; --surface2: #111820;
+    --border: #1e2d3d; --border2: #243040;
+    --accent: #00d4ff; --success: #00ff88; --warning: #ffd166; --error: #ff3355;
+    --text: #c9d1d9; --muted: #4a5568;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    background: var(--bg); color: var(--text);
-    font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
   body::before {
     content: ''; position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse at 15% 0%, rgba(0,212,255,0.07) 0%, transparent 45%),
-      radial-gradient(ellipse at 85% 100%, rgba(255,107,53,0.04) 0%, transparent 45%);
+    background: radial-gradient(ellipse at 15% 0%, rgba(0,212,255,0.07) 0%, transparent 45%),
+                radial-gradient(ellipse at 85% 100%, rgba(255,107,53,0.04) 0%, transparent 45%);
     pointer-events: none; z-index: 0;
   }
 
@@ -50,11 +39,7 @@
   }
   .version { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 2px; }
   .header-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; }
-
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--muted);
-    transition: background 0.3s; flex-shrink: 0;
-  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
   .status-dot.connected { background: var(--success); box-shadow: 0 0 8px rgba(0,255,136,0.5); animation: pulse 2s ease infinite; }
   .status-dot.error { background: var(--error); }
 
@@ -91,18 +76,10 @@
   .score-ring { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
   .score-ring svg { transform: rotate(-90deg); }
   .score-ring .track { fill: none; stroke: var(--border2); stroke-width: 3; }
-  .score-ring .fill { fill: none; stroke: var(--muted); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 138.2; stroke-dashoffset: 138.2; }
+  .score-ring .fill { fill: none; stroke: var(--muted); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 138.2; stroke-dashoffset: 138.2; transition: stroke-dashoffset 0.8s ease, stroke 0.3s; }
   .score-number { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--muted); }
-  .score-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 4px; }
-  .score-placeholder { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--warning); opacity: 0.7; line-height: 1.5; }
-
-  .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .status-btn {
-    padding: 10px 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
-    color: var(--muted); font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600;
-    letter-spacing: 1px; text-align: center; cursor: pointer; transition: all 0.15s; text-transform: uppercase;
-  }
-  .status-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.08); }
+  .score-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 6px; }
+  .score-reason { font-size: 13px; color: var(--text); line-height: 1.5; }
 
   .btn-primary {
     width: 100%; padding: 16px; background: transparent; border: 1px solid var(--accent);
@@ -119,46 +96,24 @@
   }
   .btn-secondary:active { border-color: var(--muted); color: var(--text); }
 
-  .field-row {
+  .btn-success {
+    width: 100%; padding: 16px; background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.4);
+    color: var(--success); font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-success:active { background: rgba(0,255,136,0.12); }
+  .btn-success:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .doc-link {
+    display: block; width: 100%; padding: 13px 16px;
     background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
-    padding: 10px 14px; margin-bottom: 8px; display: flex; gap: 10px; align-items: flex-start;
+    color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 500;
+    text-decoration: none; margin-bottom: 8px; transition: border-color 0.2s;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .field-key {
-    font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted);
-    letter-spacing: 2px; text-transform: uppercase; flex-shrink: 0; width: 70px; padding-top: 2px;
-  }
-  .field-val { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; word-break: break-word; }
-
-  /* SETUP */
-  .setup-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; opacity: 0.8; }
-
-  .success-screen { text-align: center; padding: 32px 0; }
-  .success-icon { font-size: 44px; margin-bottom: 12px; display: block; }
-  .success-title { font-size: 28px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--success); margin-bottom: 6px; }
-  .success-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-bottom: 8px; }
-  .success-company { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 28px; }
-
-  .spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid rgba(0,212,255,0.2); border-top-color: var(--accent);
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-    vertical-align: middle; margin-right: 8px;
-  }
-
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px;
-    padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 12px;
-    letter-spacing: 1px; z-index: 100; transition: transform 0.3s ease; white-space: nowrap; max-width: 90vw;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { border-color: rgba(0,255,136,0.4); color: var(--success); }
-  .toast.error { border-color: rgba(255,51,85,0.4); color: var(--error); }
-  .toast.info { border-color: rgba(0,212,255,0.3); color: var(--accent); }
-
-  .gap { height: 12px; }
-  .gap-sm { height: 8px; }
+  .doc-link:hover { border-color: var(--accent); }
+  .doc-link-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; }
+  .doc-link-arrow { color: var(--muted); font-size: 18px; }
 
   .info-box {
     background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); border-radius: 3px;
@@ -166,13 +121,33 @@
     color: var(--muted); line-height: 1.7; letter-spacing: 1px; margin-bottom: 16px;
   }
 
-  .btn-notion {
-    width: 100%; padding: 14px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.4);
-    color: var(--accent); font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
-    letter-spacing: 3px; text-transform: uppercase; border-radius: 3px; cursor: pointer;
-    transition: all 0.2s; text-decoration: none; display: block; text-align: center;
+  .gen-steps { margin-bottom: 16px; }
+  .gen-step {
+    display: flex; align-items: center; gap: 10px; padding: 8px 0;
+    font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px;
+    border-bottom: 1px solid var(--border); color: var(--muted);
   }
-  .btn-notion:active { background: rgba(0,212,255,0.12); }
+  .gen-step:last-child { border-bottom: none; }
+  .gen-step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: background 0.3s; }
+  .gen-step.active .gen-step-dot { background: var(--accent); box-shadow: 0 0 6px rgba(0,212,255,0.5); }
+  .gen-step.done .gen-step-dot { background: var(--success); }
+  .gen-step.active { color: var(--accent); }
+  .gen-step.done { color: var(--success); }
+
+  .success-screen { text-align: center; padding: 32px 0; }
+  .success-icon { font-size: 44px; margin-bottom: 12px; display: block; }
+  .success-title { font-size: 28px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--success); margin-bottom: 6px; }
+  .success-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-bottom: 28px; }
+
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(0,212,255,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px; padding: 12px 20px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 1px; z-index: 100; transition: transform 0.3s ease; white-space: nowrap; max-width: 90vw; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { border-color: rgba(0,255,136,0.4); color: var(--success); }
+  .toast.error { border-color: rgba(255,51,85,0.4); color: var(--error); }
+  .toast.info { border-color: rgba(0,212,255,0.3); color: var(--accent); }
+
+  .gap { height: 12px; }
 
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes pulse { 0%,100% { box-shadow: 0 0 8px rgba(0,255,136,0.4); } 50% { box-shadow: 0 0 16px rgba(0,255,136,0.7); } }
@@ -183,10 +158,7 @@
 
 <div class="header">
   <div class="header-top">
-    <div class="logo-row">
-      <h1>Jarvis</h1>
-      <span class="version">v0.4</span>
-    </div>
+    <div class="logo-row"><h1>Jarvis</h1><span class="version">v1.0</span></div>
     <div class="status-dot" id="statusDot"></div>
   </div>
   <div class="header-sub" id="headerSub">// job application system</div>
@@ -201,7 +173,7 @@
       <div class="section-label">Job Posting URL</div>
       <textarea id="jobUrl" class="input-mono" placeholder="Paste job posting URL here..." rows="3"></textarea>
     </div>
-    <button class="btn-primary" onclick="analyzeJob()">Analyze Posting</button>
+    <button class="btn-primary" id="analyzeBtn" onclick="analyzeJob()">Analyze Posting</button>
   </div>
 
   <!-- STEP 2: REVIEW -->
@@ -216,7 +188,7 @@
     </div>
     <div class="section">
       <div class="section-label">Salary Range</div>
-      <input type="text" id="salary" placeholder="e.g. $80k – $110k" />
+      <input type="text" id="salary" placeholder="e.g. $80k – $110k or Not Listed" />
     </div>
     <div class="section">
       <div class="section-label">Match Score</div>
@@ -228,10 +200,9 @@
           </svg>
           <div class="score-number" id="scoreNumber">—</div>
         </div>
-        <div class="score-info">
+        <div>
           <div class="score-label">// match score</div>
-          <div id="scoreDetail" style="font-size:13px; color: var(--muted); line-height:1.5;">Analyzing...</div>
-          <div id="resumeRec" style="font-family:'Share Tech Mono',monospace; font-size:11px; color: var(--accent); margin-top:6px; opacity:0.8;"></div>
+          <div class="score-reason" id="scoreReason" style="color:var(--muted); font-size:12px;">—</div>
         </div>
       </div>
     </div>
@@ -239,48 +210,33 @@
       <div class="section-label">Notes</div>
       <textarea id="notes" placeholder="Role summary and key requirements..."></textarea>
     </div>
-    <button class="btn-primary" onclick="goToStep3()">Confirm & Continue</button>
-    <button class="btn-secondary" onclick="goToStep('step1')">← Back</button>
+    <button class="btn-primary" onclick="goToStep('step3'); setProgress(60);">Confirm & Generate Docs</button>
+    <button class="btn-secondary" onclick="goToStep('step1'); setProgress(0);">← Back</button>
   </div>
 
-  <!-- STEP 2.5: GENERATE RESUME -->
-  <div class="step" id="step25">
-    <div class="section-label">Tailored Resume</div>
-    <div id="resumeGenStatus" class="info-box">// Ready to generate a tailored resume for this role.</div>
-    <div id="resumeDocLink" style="display:none; margin-bottom:16px;">
-      <a id="resumeDocUrl" href="#" target="_blank" class="btn-notion" style="font-size:14px; letter-spacing:2px;">
-        Open Resume in Google Docs →
+  <!-- STEP 3: GENERATE -->
+  <div class="step" id="step3">
+    <div class="section-label">Generating Documents</div>
+    <div class="gen-steps">
+      <div class="gen-step" id="gs1"><div class="gen-step-dot"></div>// fetching master resume</div>
+      <div class="gen-step" id="gs2"><div class="gen-step-dot"></div>// writing tailored resume</div>
+      <div class="gen-step" id="gs3"><div class="gen-step-dot"></div>// writing cover letter</div>
+      <div class="gen-step" id="gs4"><div class="gen-step-dot"></div>// saving resume to drive</div>
+      <div class="gen-step" id="gs5"><div class="gen-step-dot"></div>// saving cover letter to drive</div>
+    </div>
+    <div id="docLinks" style="display:none; margin-bottom:16px;">
+      <a id="resumeDocLink" href="#" target="_blank" class="doc-link">
+        <div><div class="doc-link-label">Resume</div><div id="resumeDocName" style="font-size:14px; margin-top:2px;"></div></div>
+        <span class="doc-link-arrow">→</span>
+      </a>
+      <a id="coverDocLink" href="#" target="_blank" class="doc-link">
+        <div><div class="doc-link-label">Cover Letter</div><div id="coverDocName" style="font-size:14px; margin-top:2px;"></div></div>
+        <span class="doc-link-arrow">→</span>
       </a>
     </div>
-    <button class="btn-primary" id="generateResumeBtn" onclick="generateResume()">Generate Tailored Resume</button>
-    <button class="btn-secondary" id="skipResumeBtn" onclick="goToStep('step3')">Skip → Log Application</button>
-    <button class="btn-secondary" onclick="goToStep('step2')" style="margin-top:6px;">← Back</button>
-  </div>
-
-  <!-- STEP 3: STATUS + DOCS -->
-  <div class="step" id="step3">
-    <div class="section">
-      <div class="section-label">Application Status</div>
-      <div class="status-grid">
-        <div class="status-btn active" onclick="selectStatus(this)" data-status="Applied">Applied</div>
-        <div class="status-btn" onclick="selectStatus(this)" data-status="Phone Screen">Screening</div>
-        <div class="status-btn" onclick="selectStatus(this)" data-status="Interview">Interview</div>
-        <div class="status-btn" onclick="selectStatus(this)" data-status="Offer">Offer</div>
-        <div class="status-btn" onclick="selectStatus(this)" data-status="Rejected">Rejected</div>
-        <div class="status-btn" onclick="selectStatus(this)" data-status="Ghosted">Ghosted</div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-label">Resume Version URL</div>
-      <input type="url" id="resumeUrl" placeholder="Google Doc URL (optional)" />
-    </div>
-    <div class="section">
-      <div class="section-label">Cover Letter URL</div>
-      <input type="url" id="coverUrl" placeholder="Google Doc URL (optional)" />
-    </div>
-    <div class="gap"></div>
-    <button class="btn-primary" id="logBtn" onclick="logApplication()">Log to Notion</button>
-    <button class="btn-secondary" onclick="goToStep('step25')">← Back</button>
+    <button class="btn-success" id="generateBtn" onclick="generateDocs()">Generate Resume + Cover Letter</button>
+    <button class="btn-primary" id="logBtn" onclick="logApplication()" style="display:none; margin-top:10px;">Log to Notion →</button>
+    <button class="btn-secondary" onclick="goToStep('step2'); setProgress(40);">← Back</button>
   </div>
 
   <!-- SUCCESS -->
@@ -288,8 +244,8 @@
     <div class="success-screen">
       <span class="success-icon">✓</span>
       <div class="success-title">Logged</div>
-      <div class="success-sub">// application recorded</div>
-      <div class="success-company" id="successCompany"></div>
+      <div class="success-sub">// ready to apply</div>
+      <div id="successDetails" style="font-size:18px; font-weight:600; color:var(--text); margin-bottom:28px;"></div>
       <button class="btn-primary" onclick="resetFlow()">Log Another</button>
     </div>
   </div>
@@ -298,87 +254,77 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const PROXY = 'https://black-union-2df2.maunint.workers.dev/notion';
+  const PROXY = 'https://black-union-2df2.maunint.workers.dev';
   const DB_ID = '3323844b182c80eeac17ce16242ebd44';
-  let selectedStatus = 'Applied';
+  const GIST_URL = 'https://gist.githubusercontent.com/maunint/c2b959748602a874ce1742a10edbc716/raw';
+  const RESUME_FOLDER = '1-Hi2slby4jVNzSTbO1Ltec0-m8C8W6L1';
+  const COVER_FOLDER = '1-1lf7MGMpIYTaxwwzRi1BREQgH2iPevj';
 
-  // Auto-connect on load
+  let generatedResumeUrl = '';
+  let generatedCoverUrl = '';
+
+  // ── AUTO CONNECT ──────────────────────────────────────
   window.addEventListener('load', async () => {
     try {
-      const res = await notionRequest('GET', `databases/${DB_ID}`);
+      const res = await fetch(`${PROXY}/notion/databases/${DB_ID}`, {
+        headers: { 'Content-Type': 'application/json' }
+      });
       if (res.ok) {
         document.getElementById('statusDot').classList.add('connected');
         document.getElementById('headerSub').textContent = '// ready — paste a job url';
       } else {
         document.getElementById('statusDot').classList.add('error');
-        document.getElementById('headerSub').textContent = '// connection error';
       }
     } catch(e) {
       document.getElementById('statusDot').classList.add('error');
     }
   });
 
-  // ── NOTION REQUEST ────────────────────────────────────
-  async function notionRequest(method, path, body) {
-    const opts = {
-      method,
-      headers: { 'Content-Type': 'application/json' }
-    };
-    if (body) opts.body = JSON.stringify(body);
-    return fetch(`${PROXY}/${path}`, opts);
-  }
-
-  const GIST_URL = 'https://gist.githubusercontent.com/maunint/c2b959748602a874ce1742a10edbc716/raw';
-
-  async function fetchMasterResume() {
-    const gistRes = await fetch(GIST_URL);
-    const gist = await gistRes.json();
-    const resumeUrl = gist.master_resume.url;
-    const resumeRes = await fetch(resumeUrl);
-    return await resumeRes.text();
-  }
-
   // ── ANALYZE ───────────────────────────────────────────
   async function analyzeJob() {
     const url = document.getElementById('jobUrl').value.trim();
     if (!url) { showToast('Paste a job URL first', 'error'); return; }
 
-    showToast('Analyzing...', 'info');
-    setProgress(20);
+    const btn = document.getElementById('analyzeBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Analyzing...';
+    setProgress(15);
 
     let masterResume = '';
     try {
-      masterResume = await fetchMasterResume();
-      setProgress(35);
+      const gistRes = await fetch(GIST_URL);
+      const gist = await gistRes.json();
+      const resumeRes = await fetch(gist.master_resume.url);
+      masterResume = await resumeRes.text();
+      setProgress(25);
     } catch(e) {
-      showToast('Could not load master resume — using cached profile', 'info');
       masterResume = 'Paid media specialist, 8+ years, Google Ads, Meta, LinkedIn, SA360, $800K/month, 150+ accounts.';
     }
 
     try {
-      const response = await fetch('https://black-union-2df2.maunint.workers.dev/claude/messages', {
+      const response = await fetch(`${PROXY}/claude/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
-          max_tokens: 1500,
-          system: `You are a job application assistant for Maunin Trivedi. You have access to his full master resume which contains all his skills, experience, summary variants, and deployment notes. Analyze job postings against his profile and return ONLY valid JSON with no markdown or backticks:
+          max_tokens: 1000,
+          system: `You are a job application assistant for Maunin Trivedi. Analyze job postings against his master resume and return ONLY valid JSON with no markdown or backticks:
 {
   "company": "string",
   "role": "string",
-  "salary": "string or empty",
+  "salary": "salary range as listed, or empty string if not mentioned",
   "notes": "2-3 sentence summary of role and key requirements",
-  "score": number between 0-100,
-  "score_reason": "one sentence explaining the score based on specific skill matches or gaps",
-  "resume_summary": "which summary variant (A/B/C/D) to use and why in one sentence",
-  "key_bullets": "2-3 bullet points from the master resume most relevant to highlight for this role"
+  "score": number 0-100,
+  "score_reason": "one concise sentence on why this score — focus on specific skill matches or gaps, no mention of resume variants"
 }`,
-          messages: [{ role: 'user', content: `Here is Maunin's master resume:\n\n${masterResume}\n\nNow analyze this job posting and score the match: ${url}` }],
+          messages: [{ role: 'user', content: `Master resume:\n${masterResume}\n\nAnalyze this job posting: ${url}` }],
           tools: [{ type: 'web_search_20250305', name: 'web_search' }]
         })
       });
 
+      if (!response.ok) throw new Error(`API error ${response.status}`);
       const data = await response.json();
+      if (!data.content) throw new Error(JSON.stringify(data));
       const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
       let extracted = {};
       try { extracted = JSON.parse(text.replace(/```json|```/g, '').trim()); } catch(e) {}
@@ -388,240 +334,269 @@
       document.getElementById('salary').value = extracted.salary || '';
       document.getElementById('notes').value = extracted.notes || '';
 
-      const score = extracted.score || 0;
-      updateScoreRing(score);
-      document.getElementById('scoreDetail').textContent = extracted.score_reason || '';
-      document.getElementById('resumeRec').textContent = extracted.resume_summary
-        ? `→ ${extracted.resume_summary}`
-        : '';
+      updateScoreRing(extracted.score || 0, extracted.score_reason || '');
 
       goToStep('step2');
-      setProgress(50);
+      setProgress(40);
+      btn.disabled = false;
+      btn.textContent = 'Analyze Posting';
       showToast('Posting analyzed ✓', 'success');
     } catch(e) {
-      goToStep('step2');
-      setProgress(50);
-      showToast('Enter details manually', 'info');
+      showToast('Analysis failed — please try again', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Analyze Posting';
+      setProgress(0);
     }
   }
 
-  function updateScoreRing(score) {
-    const arc = document.getElementById('scoreArc');
-    const num = document.getElementById('scoreNumber');
-    if (!arc || !num) return;
+  // ── GENERATE DOCS ─────────────────────────────────────
+  async function generateDocs() {
+    const company = document.getElementById('company').value.trim();
+    const role = document.getElementById('role').value.trim();
+    const notes = document.getElementById('notes').value.trim();
+    if (!company || !role) { showToast('Company and role required', 'error'); return; }
 
-    const circumference = 138.2;
-    const offset = circumference - (score / 100) * circumference;
-    arc.style.strokeDashoffset = offset;
+    const btn = document.getElementById('generateBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Generating...';
 
-    let color = '#ff3355'; // red
-    if (score >= 70) color = '#00ff88';
-    else if (score >= 45) color = '#ffd166';
-    arc.style.stroke = color;
-    num.style.color = color;
-    num.textContent = score;
+    const today = new Date().toISOString().split('T')[0];
+    const fileBase = `${today} — Maunin Trivedi — ${company} — ${role}`;
+
+    // Step 1: Fetch master resume
+    setGenStep(1, 'active');
+    let masterResume = '';
+    try {
+      const gistRes = await fetch(GIST_URL);
+      const gist = await gistRes.json();
+      const resumeRes = await fetch(gist.master_resume.url);
+      masterResume = await resumeRes.text();
+      setGenStep(1, 'done');
+    } catch(e) {
+      showToast('Could not load master resume', 'error');
+      btn.disabled = false; btn.textContent = 'Generate Resume + Cover Letter';
+      return;
+    }
+
+    // Step 2: Generate resume
+    setGenStep(2, 'active');
+    let resumeText = '';
+    try {
+      const res = await fetch(`${PROXY}/claude/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 3000,
+          system: `You are a professional resume writer for Maunin Trivedi. Using his master resume as the source of truth, write a tailored, submission-ready resume for a specific job.
+
+Rules:
+- Write a custom summary from scratch — synthesize one specific to this role and company, do NOT reference variants
+- Select and reframe the most relevant experience bullets — prioritize relevance
+- Trim skills to what's relevant for this role
+- Remove ALL internal notes, variant labels, deployment guidance, and red text instructions
+- Output clean plain text formatted as a resume
+- Start directly with the candidate's name and contact info
+- Keep it to one page worth of content`,
+          messages: [{ role: 'user', content: `Master resume:\n${masterResume}\n\nJob: ${role} at ${company}\nRole context: ${notes}\n\nWrite the tailored resume.` }]
+        })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json();
+      if (!data.content) throw new Error(JSON.stringify(data));
+      resumeText = data.content.filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      setGenStep(2, 'done');
+    } catch(e) {
+      showToast('Resume generation failed', 'error');
+      btn.disabled = false; btn.textContent = 'Retry';
+      return;
+    }
+
+    // Step 3: Generate cover letter
+    setGenStep(3, 'active');
+    let coverText = '';
+    try {
+      const res = await fetch(`${PROXY}/claude/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1500,
+          system: `You are a professional cover letter writer for Maunin Trivedi. Write a compelling, tailored cover letter for a specific job using his background.
+
+Rules:
+- Address to "Hiring Manager" unless company name suggests otherwise
+- Open with a strong, specific hook — not a generic opener
+- 3-4 paragraphs: hook, relevant experience proof, why this company/role, closing
+- Confident, direct tone — not sycophantic
+- Use specific achievements from his background (ROAS, CPL, scale of accounts)
+- Close with a clear call to action
+- Output plain text only, no formatting marks`,
+          messages: [{ role: 'user', content: `Master resume:\n${masterResume}\n\nJob: ${role} at ${company}\nRole context: ${notes}\n\nWrite the cover letter.` }]
+        })
+      });
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json();
+      if (!data.content) throw new Error(JSON.stringify(data));
+      coverText = data.content.filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      setGenStep(3, 'done');
+    } catch(e) {
+      showToast('Cover letter generation failed', 'error');
+      btn.disabled = false; btn.textContent = 'Retry';
+      return;
+    }
+
+    // Step 4: Save resume to Drive
+    setGenStep(4, 'active');
+    try {
+      const res = await fetch(`${PROXY}/gdocs/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: `${fileBase} — Resume`, content: resumeText, folderId: RESUME_FOLDER })
+      });
+      const data = await res.json();
+      if (!data.url) throw new Error(data.error || 'Failed to create resume doc');
+      generatedResumeUrl = data.url;
+      document.getElementById('resumeDocLink').href = data.url;
+      document.getElementById('resumeDocName').textContent = `${fileBase} — Resume`;
+      setGenStep(4, 'done');
+    } catch(e) {
+      showToast('Failed to save resume to Drive', 'error');
+      btn.disabled = false; btn.textContent = 'Retry';
+      return;
+    }
+
+    // Step 5: Save cover letter to Drive
+    setGenStep(5, 'active');
+    try {
+      const res = await fetch(`${PROXY}/gdocs/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: `${fileBase} — Cover Letter`, content: coverText, folderId: COVER_FOLDER })
+      });
+      const data = await res.json();
+      if (!data.url) throw new Error(data.error || 'Failed to create cover letter doc');
+      generatedCoverUrl = data.url;
+      document.getElementById('coverDocLink').href = data.url;
+      document.getElementById('coverDocName').textContent = `${fileBase} — Cover Letter`;
+      setGenStep(5, 'done');
+    } catch(e) {
+      showToast('Failed to save cover letter to Drive', 'error');
+      btn.disabled = false; btn.textContent = 'Retry';
+      return;
+    }
+
+    // All done
+    document.getElementById('docLinks').style.display = 'block';
+    document.getElementById('generateBtn').style.display = 'none';
+    document.getElementById('logBtn').style.display = 'block';
+    setProgress(80);
+    showToast('Documents ready ✓', 'success');
   }
 
-  // ── LOG ───────────────────────────────────────────────
+  // ── LOG TO NOTION ─────────────────────────────────────
   async function logApplication() {
     const company = document.getElementById('company').value.trim();
     const role = document.getElementById('role').value.trim();
-    if (!company || !role) { showToast('Company and role required', 'error'); return; }
+    const salary = document.getElementById('salary').value.trim();
+    const notes = document.getElementById('notes').value.trim();
+    const jobUrl = document.getElementById('jobUrl').value.trim();
+    const today = new Date().toISOString().split('T')[0];
+    const scoreVal = parseInt(document.getElementById('scoreNumber').textContent);
 
     const btn = document.getElementById('logBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Logging...';
 
-    const today = new Date().toISOString().split('T')[0];
-    const salary = document.getElementById('salary').value.trim();
-    const notes = document.getElementById('notes').value.trim();
-    const resumeUrl = document.getElementById('resumeUrl').value.trim();
-    const coverUrl = document.getElementById('coverUrl').value.trim();
-    const jobUrl = document.getElementById('jobUrl').value.trim();
-
     const properties = {
       'Name': { title: [{ text: { content: `${company} — ${role}` } }] },
-      'Status': { select: { name: selectedStatus } },
+      'Status': { select: { name: 'Ready to Apply' } },
       'Date Applied': { date: { start: today } }
     };
 
-    const scoreVal = parseInt(document.getElementById('scoreNumber').textContent);
-    if (!isNaN(scoreVal)) properties['Match Score'] = { number: scoreVal };
     if (jobUrl) properties['Job posting URL'] = { url: jobUrl };
     if (salary) properties['Salary range'] = { rich_text: [{ text: { content: salary } }] };
     if (notes) properties['Notes'] = { rich_text: [{ text: { content: notes } }] };
-    if (resumeUrl) properties['Resume Version'] = { url: resumeUrl };
-    if (coverUrl) properties['Cover letter version'] = { url: coverUrl };
+    if (generatedResumeUrl) properties['Resume Version'] = { url: generatedResumeUrl };
+    if (generatedCoverUrl) properties['Cover letter version'] = { url: generatedCoverUrl };
+    if (!isNaN(scoreVal)) properties['Match Score'] = { number: scoreVal };
 
     try {
-      const res = await notionRequest('POST', 'pages', {
-        parent: { database_id: DB_ID },
-        properties
+      const res = await fetch(`${PROXY}/notion/pages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ parent: { database_id: DB_ID }, properties })
       });
 
       if (res.ok) {
-        document.getElementById('successCompany').textContent = `${company} — ${role}`;
+        document.getElementById('successDetails').textContent = `${company} — ${role}`;
         goToStep('stepSuccess');
         setProgress(100);
       } else {
         const err = await res.json();
         showToast(err.message || 'Failed to log', 'error');
         btn.disabled = false;
-        btn.textContent = 'Log to Notion';
+        btn.textContent = 'Log to Notion →';
       }
     } catch(e) {
       showToast('Network error', 'error');
       btn.disabled = false;
-      btn.textContent = 'Log to Notion';
+      btn.textContent = 'Log to Notion →';
     }
   }
 
-  // ── NAV ───────────────────────────────────────────────
+  // ── HELPERS ───────────────────────────────────────────
+  function updateScoreRing(score, reason) {
+    const arc = document.getElementById('scoreArc');
+    const num = document.getElementById('scoreNumber');
+    const circumference = 138.2;
+    arc.style.strokeDashoffset = circumference - (score / 100) * circumference;
+    const color = score >= 70 ? '#00ff88' : score >= 45 ? '#ffd166' : '#ff3355';
+    arc.style.stroke = color;
+    num.style.color = color;
+    num.textContent = score;
+    document.getElementById('scoreReason').textContent = reason;
+    document.getElementById('scoreReason').style.color = 'var(--text)';
+  }
+
+  function setGenStep(n, state) {
+    const el = document.getElementById(`gs${n}`);
+    el.className = `gen-step ${state}`;
+  }
+
   function goToStep(id) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo(0, 0);
   }
 
-  function goToStep3() {
-    const company = document.getElementById('company').value.trim();
-    const role = document.getElementById('role').value.trim();
-    if (!company || !role) { showToast('Company and role required', 'error'); return; }
-    goToStep('step25'); setProgress(60);
-  }
-
-  async function generateResume() {
-    const company = document.getElementById('company').value.trim();
-    const role = document.getElementById('role').value.trim();
-    const notes = document.getElementById('notes').value.trim();
-    const btn = document.getElementById('generateResumeBtn');
-    const statusEl = document.getElementById('resumeGenStatus');
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Generating...';
-
-    const steps = [
-      '// Fetching master resume...',
-      '// Analyzing job requirements...',
-      '// Writing tailored summary...',
-      '// Selecting relevant experience...',
-      '// Trimming skills section...',
-      '// Saving to Google Docs...',
-    ];
-    let stepIndex = 0;
-    statusEl.textContent = steps[0];
-    const stepInterval = setInterval(() => {
-      stepIndex = Math.min(stepIndex + 1, steps.length - 1);
-      statusEl.textContent = steps[stepIndex];
-    }, 4000);
-
-    let masterResume = '';
-    try {
-      const gistRes = await fetch('https://gist.githubusercontent.com/maunint/c2b959748602a874ce1742a10edbc716/raw');
-      const gist = await gistRes.json();
-      const resumeRes = await fetch(gist.master_resume.url);
-      masterResume = await resumeRes.text();
-    } catch(e) {
-      clearInterval(stepInterval);
-      showToast('Could not load master resume', 'error');
-      btn.disabled = false;
-      btn.textContent = 'Generate Tailored Resume';
-      return;
-    }
-
-    statusEl.textContent = '// Writing tailored resume...';
-
-    try {
-      const response = await fetch('https://black-union-2df2.maunint.workers.dev/claude/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 3000,
-          system: `You are a professional resume writer. Using the candidate's master resume as a source of truth, generate a tailored, submission-ready resume for a specific job. 
-
-Rules:
-- Write a custom summary from scratch — do NOT copy a variant verbatim, synthesize one specific to the role
-- Select and reframe the most relevant bullets — prioritize relevance over completeness
-- Trim the skills section to only what's relevant to this role
-- Remove internal notes, variant labels, and deployment guidance entirely
-- Output clean plain text formatted as a resume, ready to paste into a document
-- Do NOT include a title like "Resume" at the top — start with the candidate's name
-- Keep it to one page worth of content`,
-          messages: [{
-            role: 'user',
-            content: `Master resume:\n${masterResume}\n\nJob: ${role} at ${company}\nRole summary: ${notes}\n\nGenerate a tailored resume for this specific role.`
-          }]
-        })
-      });
-
-      const data = await response.json();
-      if (!data.content) throw new Error(JSON.stringify(data));
-const resumeText = data.content.filter(b => b.type === 'text').map(b => b.text).join('').trim();
-
-      statusEl.textContent = '// Saving to Google Docs...';
-
-      // Create Google Doc
-      const docRes = await fetch('https://black-union-2df2.maunint.workers.dev/gdocs/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: `${company} — ${role} Resume`,
-          content: resumeText,
-          folderId: '1-Hi2slby4jVNzSTbO1Ltec0-m8C8W6L1'
-        })
-      });
-
-      const docData = await docRes.json();
-
-      if (docData.url) {
-        clearInterval(stepInterval);
-        // Auto-fill resume URL field
-        document.getElementById('resumeUrl').value = docData.url;
-
-        statusEl.textContent = '// Resume created ✓ — review it in Google Docs, then continue to log.';
-        document.getElementById('resumeDocUrl').href = docData.url;
-        document.getElementById('resumeDocLink').style.display = 'block';
-        btn.textContent = 'Regenerate';
-        btn.disabled = false;
-        document.getElementById('skipResumeBtn').textContent = 'Continue → Log Application';
-        showToast('Resume created ✓', 'success');
-      } else {
-        throw new Error(docData.error || 'Unknown error');
-      }
-
-    } catch(e) {
-      clearInterval(stepInterval);
-      statusEl.textContent = `// Error: ${e.message}`;
-      showToast('Resume generation failed', 'error');
-      btn.disabled = false;
-      btn.textContent = 'Retry';
-    }
-  }
-
-  function setProgress(pct) { document.getElementById('progressFill').style.width = pct + '%'; }
-
-  function selectStatus(el) {
-    document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    selectedStatus = el.dataset.status;
+  function setProgress(pct) {
+    document.getElementById('progressFill').style.width = pct + '%';
   }
 
   function resetFlow() {
-    ['jobUrl','company','role','salary','notes','resumeUrl','coverUrl'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.status-btn').classList.add('active');
-    selectedStatus = 'Applied';
-    setProgress(10);
+    ['jobUrl','company','role','salary','notes'].forEach(id => document.getElementById(id).value = '');
+    generatedResumeUrl = ''; generatedCoverUrl = '';
+    document.getElementById('scoreNumber').textContent = '—';
+    document.getElementById('scoreNumber').style.color = 'var(--muted)';
+    document.getElementById('scoreArc').style.strokeDashoffset = '138.2';
+    document.getElementById('scoreArc').style.stroke = 'var(--muted)';
+    document.getElementById('scoreReason').textContent = '—';
+    document.getElementById('docLinks').style.display = 'none';
+    document.getElementById('generateBtn').style.display = 'block';
+    document.getElementById('generateBtn').disabled = false;
+    document.getElementById('generateBtn').textContent = 'Generate Resume + Cover Letter';
+    document.getElementById('logBtn').style.display = 'none';
+    document.getElementById('logBtn').disabled = false;
+    document.getElementById('logBtn').textContent = 'Log to Notion →';
+    [1,2,3,4,5].forEach(n => setGenStep(n, ''));
+    setProgress(0);
     goToStep('step1');
   }
 
-  // ── TOAST ─────────────────────────────────────────────
   function showToast(msg, type = 'info') {
     const t = document.getElementById('toast');
-    t.textContent = msg; t.className = 'toast ' + type + ' show';
+    t.textContent = msg; t.className = `toast ${type} show`;
     setTimeout(() => t.classList.remove('show'), 2800);
   }
 </script>
