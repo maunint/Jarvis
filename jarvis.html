@@ -499,7 +499,21 @@
 
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Generating...';
-    statusEl.textContent = '// Fetching master resume...';
+
+    const steps = [
+      '// Fetching master resume...',
+      '// Analyzing job requirements...',
+      '// Writing tailored summary...',
+      '// Selecting relevant experience...',
+      '// Trimming skills section...',
+      '// Saving to Google Docs...',
+    ];
+    let stepIndex = 0;
+    statusEl.textContent = steps[0];
+    const stepInterval = setInterval(() => {
+      stepIndex = Math.min(stepIndex + 1, steps.length - 1);
+      statusEl.textContent = steps[stepIndex];
+    }, 4000);
 
     let masterResume = '';
     try {
@@ -508,6 +522,7 @@
       const resumeRes = await fetch(gist.master_resume.url);
       masterResume = await resumeRes.text();
     } catch(e) {
+      clearInterval(stepInterval);
       showToast('Could not load master resume', 'error');
       btn.disabled = false;
       btn.textContent = 'Generate Tailored Resume';
@@ -559,6 +574,7 @@ Rules:
       const docData = await docRes.json();
 
       if (docData.url) {
+        clearInterval(stepInterval);
         // Auto-fill resume URL field
         document.getElementById('resumeUrl').value = docData.url;
 
@@ -574,6 +590,7 @@ Rules:
       }
 
     } catch(e) {
+      clearInterval(stepInterval);
       statusEl.textContent = `// Error: ${e.message}`;
       showToast('Resume generation failed', 'error');
       btn.disabled = false;
